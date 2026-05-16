@@ -126,6 +126,8 @@ select option{background:#161b27;color:#e2e6f0;}
 /* ── SCHEDULE HEADER ── */
 /* D1/D2: Time | Player | TG | Speedups | Points | X */
 .sch-d1{display:grid;grid-template-columns:84px minmax(80px,25%) 44px 76px 80px 28px;gap:6px;padding:6px 12px;font-size:9.5px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;background:var(--bg3);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;flex-shrink:0;}
+/* D2: Time | Player | Speedups | Points | X */
+.sch-d2{display:grid;grid-template-columns:84px minmax(80px,25%) 100px 80px 28px;gap:6px;padding:6px 12px;font-size:9.5px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;background:var(--bg3);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;flex-shrink:0;}
 /* D4: Time | Player | T9 | T10 | T11 | Speedups | Points | X */
 .sch-d4{display:grid;grid-template-columns:84px minmax(80px,25%) 40px 40px 36px 68px 80px 28px;gap:6px;padding:6px 12px;font-size:9.5px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;background:var(--bg3);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;flex-shrink:0;}
 
@@ -135,12 +137,13 @@ select option{background:#161b27;color:#e2e6f0;}
 
 /* ── SCHEDULE ROWS ── */
 .sr-d1{display:grid;grid-template-columns:84px minmax(80px,25%) 44px 76px 80px 28px;gap:6px;align-items:center;padding:6px 12px;border-bottom:1px solid var(--border);transition:background .1s;}
+.sr-d2{display:grid;grid-template-columns:84px minmax(80px,25%) 100px 80px 28px;gap:6px;align-items:center;padding:6px 12px;border-bottom:1px solid var(--border);transition:background .1s;}
 .sr-d4{display:grid;grid-template-columns:84px minmax(80px,25%) 40px 40px 36px 68px 80px 28px;gap:6px;align-items:center;padding:6px 12px;border-bottom:1px solid var(--border);transition:background .1s;}
-.sr-d1:hover,.sr-d4:hover{background:var(--bg2);}
-.sr-d1.em,.sr-d4.em{opacity:.55;background:rgba(255,255,255,.02);}
-.sr-d1.em .st,.sr-d4.em .st{color:var(--text3);}
-.sr-d1.em .se,.sr-d4.em .se{color:var(--text3);font-style:normal;font-size:11.5px;}
-.sr-d1.no-slot,.sr-d4.no-slot{background:rgba(224,85,85,.04);border-left:2px solid rgba(224,85,85,.3);}
+.sr-d1:hover,.sr-d2:hover,.sr-d4:hover{background:var(--bg2);}
+.sr-d1.em,.sr-d2.em,.sr-d4.em{opacity:.55;background:rgba(255,255,255,.02);}
+.sr-d1.em .st,.sr-d2.em .st,.sr-d4.em .st{color:var(--text3);}
+.sr-d1.em .se,.sr-d2.em .se,.sr-d4.em .se{color:var(--text3);font-style:normal;font-size:11.5px;}
+.sr-d1.no-slot,.sr-d2.no-slot,.sr-d4.no-slot{background:rgba(224,85,85,.04);border-left:2px solid rgba(224,85,85,.3);}
 
 .st{font-size:11.5px;font-weight:500;color:var(--text2);font-variant-numeric:tabular-nums;white-space:nowrap;}
 .sn{font-size:12.5px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -207,13 +210,13 @@ select option{background:#161b27;color:#e2e6f0;}
   <div class="tb-gap"></div>
   <div class="pill" id="stat-d1-players">D1: <strong>0</strong></div>
   <div class="pill" id="stat-d1-pts">Pts: <strong>0</strong></div>
-  <div class="pill" id="stat-overflow">Overflow: <strong>0</strong></div>
+  <div class="pill" id="stat-d2-pts">D2 Pts: <strong>0</strong></div>
 </div>
 
 <!-- TABS -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('d1')">Day 1 &mdash; Chief Minister</button>
-  <button class="tab-btn" onclick="switchTab('d2')">Day 2 &mdash; Overflow</button>
+  <button class="tab-btn" onclick="switchTab('d2')">Day 2 &mdash; Research</button>
   <button class="tab-btn" onclick="switchTab('d4')">Day 4 &mdash; Noble Advisor</button>
 </div>
 
@@ -288,22 +291,20 @@ select option{background:#161b27;color:#e2e6f0;}
 <!-- ═══════════════ DAY 2 ═══════════════ -->
 <div class="tab-panel" id="panel-d2">
   <div class="lp"><div class="lp-scroll">
-    <div class="notice"><strong>Day 2 Overflow</strong><br>Unassigned Day 1 players carry over with priority. Add additional Day 2 players below.</div>
-    <div class="sh"><span class="sh-t">Import CSV</span><span class="sh-i">Name,Start1,End1,Start2,End2,Speedups,Truegold</span></div>
+    <div class="sh"><span class="sh-t">Import CSV</span><span class="sh-i">Name,Start1,End1,Start2,End2,Speedups</span></div>
     <div class="csv-zone" id="d2-drop" onclick="document.getElementById('d2-file').click()" ondragover="onDragOver(event)" ondrop="onDrop(event,'d2')">
       <input type="file" id="d2-file" accept=".csv" style="display:none" onchange="onFileInput(event,'d2')">
       <div class="cz-icon">&#8679;</div>
       <div class="cz-label">Drop CSV or click to browse</div>
       <div class="cz-sub" id="d2-csv-status">Appends to existing players</div>
     </div>
-    <div class="sh"><span class="sh-t">Add Player</span><span class="sh-i">Day 2 only</span></div>
+    <div class="sh"><span class="sh-t">Add Player</span><span class="sh-i">Pts = Speedup minutes</span></div>
     <div class="form-wrap">
       <div><label class="fl">Player Name</label><input type="text" id="d2-name" placeholder="e.g. DragonSlayer" autocomplete="off"></div>
       <div class="fr c2">
-        <div><label class="fl">Truegold qty</label><input type="number" id="d2-tg" min="0" placeholder="e.g. 120" oninput="updatePreview('d2')"></div>
+        <div><label class="fl">Research Speedup Days</label><input type="number" id="d2-sp" min="0" step="0.01" placeholder="e.g. 14.5" oninput="updatePreview('d2')"></div>
         <div style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:3px"><span class="pts-prev" id="d2-preview">&#8212; pts</span></div>
       </div>
-      <div><label class="fl">Construction Speedups</label><input type="text" id="d2-sp" placeholder="e.g. 14 Days" autocomplete="off"></div>
       <div>
         <label class="fl">Window 1 (UTC)</label>
         <div class="trr">
@@ -330,7 +331,7 @@ select option{background:#161b27;color:#e2e6f0;}
       </div>
       <div class="btn-row">
         <button class="btn primary" onclick="addPlayer('d2')" style="flex:1">+ Add Player</button>
-        <button class="btn danger" onclick="clearAll('d2')">Clear D2 Only</button>
+        <button class="btn danger" onclick="clearAll('d2')">Clear All</button>
       </div>
     </div>
   </div></div>
@@ -341,8 +342,8 @@ select option{background:#161b27;color:#e2e6f0;}
       <div class="si" id="d2-f-ns" onclick="setFilter('d2','ns')"><div class="sv" id="d2-s-noslot">0</div><div class="sl">No Slot &#10005;</div></div>
       <div class="si" style="cursor:default"><div class="sv" id="d2-s-pts">0</div><div class="sl">Total Pts</div></div>
     </div>
-    <div class="sch-d1">
-      <span>Time (UTC)</span><span>Player</span><span style="text-align:right">TG</span><span style="text-align:right">Speedups</span><span style="text-align:right">Points</span><span></span>
+    <div class="sch-d2">
+      <span>Time (UTC)</span><span>Player</span><span style="text-align:right">Speedups</span><span style="text-align:right">Points</span><span></span>
     </div>
     <div class="sw" id="d2-schedule"></div>
     <div class="cw">
@@ -445,6 +446,7 @@ function csvTM(v){if(!v||!v.trim())return null;const p=v.trim().split(':');if(p.
 
 // ── POINTS ────────────────────────────────────────────
 function calcPts(tg){return(parseInt(tg)||0)*2000;}
+function calcD2Pts(sp){return Math.round((parseFloat(sp)||0)*24*60);}
 function calcD4Pts(sp,t9,t10,t11){
   const totalSec=(parseFloat(sp)||0)*86400;
   if(t11){const rem=Math.max(0,totalSec-(t9*12)-(t10*6));return(t9*30)+(t10*15)+Math.floor(rem/44)*75;}
@@ -491,18 +493,9 @@ function assign(q){
   return sc;
 }
 
-function buildD2Q(){
-  const ids=new Set(schedule.d1.filter(Boolean).map(p=>p.id));
-  const ov=players.d1.filter(p=>!ids.has(p.id)).map(p=>({...p,carried:true}));
-  return[...ov,...players.d2];
-}
-
 function recalcAll(){
   schedule.d1=assign(players.d1);
-  const ids=new Set(schedule.d1.filter(Boolean).map(p=>p.id));
-  const q2=[...players.d1.filter(p=>!ids.has(p.id)).map(p=>({...p,carried:true})),...players.d2]
-    .sort((a,b)=>{if(a.carried!==b.carried)return a.carried?-1:1;return b.pts-a.pts||a.entryOrder-b.entryOrder;});
-  schedule.d2=assign(q2);
+  schedule.d2=assign(players.d2);
   schedule.d4=assign(players.d4);
   renderAll();saveState();
 }
@@ -524,11 +517,13 @@ function setFilter(day,f){
 // ── RENDER D1/D2 SCHEDULE ────────────────────────────
 function renderSched(day){
   const sc=schedule[day],wrap=document.getElementById(day+'-schedule');
-  const src=day==='d1'?players.d1:buildD2Q();
+  const src=players[day];
   const aIds=new Set(sc.filter(Boolean).map(p=>p.id));
   const noSlotPlayers=src.filter(p=>!aIds.has(p.id));
   let assigned=0,totalPts=0,html='';
   const f=filters[day];
+  const isD2=day==='d2';
+  const rowCls=isD2?'sr-d2':'sr-d1';
 
   for(let i=0;i<SLOTS;i++){
     const p=sc[i],t=slotLabel(i);
@@ -536,41 +531,57 @@ function renderSched(day){
       assigned++;totalPts+=p.pts;
       if(f==='open'||f==='ns')continue;
       const locked=p.override!=null;
-      html+=`<div class="sr-d1">
-        <span class="st">${t}</span>
-        <span class="sn">${esc(p.name)}${p.carried?'<span class="ctag">D1&#8594;D2</span>':''}${locked?'<span class="lock-tag">&#128274;</span>':''}</span>
-        <span class="stg" style="text-align:right">${p.tg||0}</span>
-        <span class="ssp">${esc(p.sp||'\u2014')}</span>
-        <span class="spts">${fmtPts(p.pts)}</span>
-        <button class="sdel" onclick="removeFromSched('${day}','${p.id}')" title="Remove">&#10005;</button>
-      </div>`;
+      if(isD2){
+        html+=`<div class="${rowCls}">
+          <span class="st">${t}</span>
+          <span class="sn">${esc(p.name)}${locked?'<span class="lock-tag">&#128274;</span>':''}</span>
+          <span class="ssp">${esc(p.sp||'\u2014')}</span>
+          <span class="spts">${fmtPts(p.pts)}</span>
+          <button class="sdel" onclick="removeFromSched('${day}','${p.id}')" title="Remove">&#10005;</button>
+        </div>`;
+      } else {
+        html+=`<div class="${rowCls}">
+          <span class="st">${t}</span>
+          <span class="sn">${esc(p.name)}${locked?'<span class="lock-tag">&#128274;</span>':''}</span>
+          <span class="stg" style="text-align:right">${p.tg||0}</span>
+          <span class="ssp">${esc(p.sp||'\u2014')}</span>
+          <span class="spts">${fmtPts(p.pts)}</span>
+          <button class="sdel" onclick="removeFromSched('${day}','${p.id}')" title="Remove">&#10005;</button>
+        </div>`;
+      }
     } else {
       if(f==='all'||f==='open'){
-        html+=`<div class="sr-d1 em">
-          <span class="st">${t}</span><span class="se">\u2014 open \u2014</span>
-          <span></span><span></span><span></span><span></span>
-        </div>`;
+        const emptyCols=isD2?'<span></span><span></span><span></span>':'<span></span><span></span><span></span><span></span>';
+        html+=`<div class="${rowCls} em"><span class="st">${t}</span><span class="se">\u2014 open \u2014</span>${emptyCols}</div>`;
       }
     }
   }
 
-  // No-slot unassigned players
   if(f==='all'||f==='ns'){
     noSlotPlayers.forEach(p=>{
-      html+=`<div class="sr-d1 no-slot">
-        <span class="st" style="color:var(--red);font-size:10px">NO SLOT</span>
-        <span class="sn">${esc(p.name)}${p.carried?'<span class="ctag">D1&#8594;D2</span>':''}</span>
-        <span class="stg" style="text-align:right">${p.tg||0}</span>
-        <span class="ssp">${esc(p.sp||'\u2014')}</span>
-        <span class="spts">${fmtPts(p.pts)}</span>
-        <button class="sdel" onclick="removeNoSlot('${day}','${p.id}')" title="Remove">&#10005;</button>
-      </div>`;
+      if(isD2){
+        html+=`<div class="${rowCls} no-slot">
+          <span class="st" style="color:var(--red);font-size:10px">NO SLOT</span>
+          <span class="sn">${esc(p.name)}</span>
+          <span class="ssp">${esc(p.sp||'\u2014')}</span>
+          <span class="spts">${fmtPts(p.pts)}</span>
+          <button class="sdel" onclick="removeNoSlot('${day}','${p.id}')" title="Remove">&#10005;</button>
+        </div>`;
+      } else {
+        html+=`<div class="${rowCls} no-slot">
+          <span class="st" style="color:var(--red);font-size:10px">NO SLOT</span>
+          <span class="sn">${esc(p.name)}</span>
+          <span class="stg" style="text-align:right">${p.tg||0}</span>
+          <span class="ssp">${esc(p.sp||'\u2014')}</span>
+          <span class="spts">${fmtPts(p.pts)}</span>
+          <button class="sdel" onclick="removeNoSlot('${day}','${p.id}')" title="Remove">&#10005;</button>
+        </div>`;
+      }
     });
   }
 
   if(!html)html='<div class="es"><div class="big">&#128203;</div>No players added yet.</div>';
   wrap.innerHTML=html;
-
   const set=(id,v)=>{const e=document.getElementById(day+'-s-'+id);if(e)e.textContent=v;};
   set('assigned',assigned);set('open',SLOTS-assigned);set('noslot',noSlotPlayers.length);set('pts',fmtPts(totalPts));
 }
@@ -633,11 +644,11 @@ function renderSchedD4(){
 
 // ── TOPBAR ────────────────────────────────────────────
 function updateTopbar(){
-  const pts=schedule.d1.filter(Boolean).reduce((s,p)=>s+p.pts,0);
-  const ov=buildD2Q().length;
+  const pts1=schedule.d1.filter(Boolean).reduce((s,p)=>s+p.pts,0);
+  const pts2=schedule.d2.filter(Boolean).reduce((s,p)=>s+p.pts,0);
   document.getElementById('stat-d1-players').innerHTML='D1: <strong>'+players.d1.length+'</strong>';
-  document.getElementById('stat-d1-pts').innerHTML='Pts: <strong>'+fmtPts(pts)+'</strong>';
-  document.getElementById('stat-overflow').innerHTML='Overflow: <strong>'+ov+'</strong>';
+  document.getElementById('stat-d1-pts').innerHTML='Pts: <strong>'+fmtPts(pts1)+'</strong>';
+  document.getElementById('stat-d2-pts').innerHTML='D2 Pts: <strong>'+fmtPts(pts2)+'</strong>';
 }
 
 // ── REMOVE ────────────────────────────────────────────
@@ -654,8 +665,13 @@ function removeNoSlotD4(id){removeFromSchedD4(id);}
 function addPlayer(day){
   const name=document.getElementById(day+'-name').value.trim();
   if(!name){showToast('Please enter a player name.',true);return;}
-  const tg=parseInt(document.getElementById(day+'-tg').value)||0;
-  const sp=document.getElementById(day+'-sp').value.trim();
+  const isD2=day==='d2';
+  const tg=isD2?0:(parseInt(document.getElementById(day+'-tg').value)||0);
+  const spRaw=isD2
+    ?parseFloat(document.getElementById('d2-sp').value)||0
+    :document.getElementById(day+'-sp').value.trim();
+  const sp=isD2?spRaw+'d':spRaw;
+  const pts=isD2?calcD2Pts(spRaw):calcPts(tg);
   const s1=timeToMin(document.getElementById(day+'-s1').value);
   const e1=timeToMin(document.getElementById(day+'-e1').value);
   const s2=timeToMin(document.getElementById(day+'-s2').value);
@@ -669,12 +685,11 @@ function addPlayer(day){
   const ovrSel=document.getElementById(day+'-ovr-sel');
   let override=null;
   if(ovrChk&&ovrChk.checked&&ovrSel&&ovrSel.value!==''){
-    const ovrMin=parseInt(ovrSel.value);
-    override=Math.floor(ovrMin/30);
+    override=Math.floor(parseInt(ovrSel.value)/30);
   }
 
   const p={
-    id:'p'+Date.now()+(entryCounter++),name,tg,sp,pts:calcPts(tg),
+    id:'p'+Date.now()+(entryCounter++),name,tg,sp,pts,
     s1:s1!==null&&e1!==null?s1:null,e1:s1!==null&&e1!==null?e1:null,
     s2:s2!==null&&e2!==null?s2:null,e2:s2!==null&&e2!==null?e2:null,
     override,entryOrder:entryCounter,carried:false
@@ -729,7 +744,12 @@ function toggleOverride(day){
 
 // ── CLEAR FORMS ──────────────────────────────────────
 function clearForm(day){
-  ['name','tg','sp'].forEach(f=>{const e=document.getElementById(day+'-'+f);if(e)e.value='';});
+  const isD2=day==='d2';
+  if(isD2){
+    ['d2-name','d2-sp'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  } else {
+    ['name','tg','sp'].forEach(f=>{const e=document.getElementById(day+'-'+f);if(e)e.value='';});
+  }
   ['s1','e1','s2','e2'].forEach(f=>{const e=document.getElementById(day+'-'+f);if(e)e.value='';});
   const chk=document.getElementById(day+'-ovr-chk');if(chk)chk.checked=false;
   const slot=document.getElementById(day+'-ovr-slot');if(slot)slot.style.display='none';
@@ -750,8 +770,14 @@ function clearAllD4(){players.d4=[];recalcAll();}
 
 // ── PREVIEWS ─────────────────────────────────────────
 function updatePreview(day){
-  const tg=parseInt(document.getElementById(day+'-tg').value)||0;
-  document.getElementById(day+'-preview').textContent=tg>0?fmtPts(calcPts(tg))+' pts':'\u2014 pts';
+  if(day==='d2'){
+    const sp=parseFloat(document.getElementById('d2-sp').value)||0;
+    const pts=calcD2Pts(sp);
+    document.getElementById('d2-preview').textContent=sp>0?fmtPts(pts)+' pts':'\u2014 pts';
+  } else {
+    const tg=parseInt(document.getElementById(day+'-tg').value)||0;
+    document.getElementById(day+'-preview').textContent=tg>0?fmtPts(calcPts(tg))+' pts':'\u2014 pts';
+  }
 }
 function updatePreviewD4(){
   const sp=parseFloat(document.getElementById('d4-sp').value)||0;
@@ -799,12 +825,13 @@ function copyScheduleD4(){
 }
 
 // ── CSV ───────────────────────────────────────────────
-function parseCSV(text){
+function parseCSV(text,day){
   const lines=text.split(/\r?\n/).filter(l=>l.trim());
   if(!lines.length)return{players:[],errors:[]};
   const fc=lines[0].split(',').map(c=>c.trim().toLowerCase());
   const hasH=['name','player','player name'].includes(fc[0]);
   const data=hasH?lines.slice(1):lines;
+  const isD2=day==='d2';
   const parsed=[],errors=[];
   data.forEach((line,idx)=>{
     if(!line.trim())return;
@@ -812,9 +839,15 @@ function parseCSV(text){
     const name=clean[0]||'';
     if(!name){errors.push('Row '+(idx+2)+': missing name');return;}
     const s1=csvTM(clean[1]),e1=csvTM(clean[2]),s2=csvTM(clean[3]),e2=csvTM(clean[4]);
-    const sp=clean[5]||'',tg=parseInt(clean[6])||0;
+    let pts,tg,sp;
+    if(isD2){
+      const spDays=parseFloat(clean[5])||0;
+      sp=spDays+'d'; tg=0; pts=calcD2Pts(spDays);
+    } else {
+      sp=clean[5]||''; tg=parseInt(clean[6])||0; pts=calcPts(tg);
+    }
     const p={
-      id:'p'+Date.now()+(entryCounter++),name,tg,sp,pts:calcPts(tg),
+      id:'p'+Date.now()+(entryCounter++),name,tg,sp,pts,
       s1:s1!==null&&e1!==null?s1:null,e1:s1!==null&&e1!==null?e1:null,
       s2:s2!==null&&e2!==null?s2:null,e2:s2!==null&&e2!==null?e2:null,
       override:null,entryOrder:entryCounter,carried:false
@@ -825,7 +858,7 @@ function parseCSV(text){
   return{players:parsed,errors};
 }
 function importCSV(day,text){
-  const{players:np,errors}=parseCSV(text);
+  const{players:np,errors}=parseCSV(text,day);
   const st=document.getElementById(day+'-csv-status');
   if(!np.length&&errors.length){st.textContent='Error: '+errors[0];st.className='cz-sub err';return;}
   players[day].push(...np);recalcAll();
@@ -907,10 +940,10 @@ function showToast(msg,isErr){
 }
 
 // ── PERSIST ───────────────────────────────────────────
-function saveState(){try{localStorage.setItem('kvk_v6',JSON.stringify({players,entryCounter}));}catch(e){}}
+function saveState(){try{localStorage.setItem('kvk_v7',JSON.stringify({players,entryCounter}));}catch(e){}}
 function loadState(){
   try{
-    const raw=localStorage.getItem('kvk_v6');if(!raw)return;
+    const raw=localStorage.getItem('kvk_v7');if(!raw)return;
     const s=JSON.parse(raw);
     players=s.players||{d1:[],d2:[],d4:[]};
     if(!players.d4)players.d4=[];
